@@ -1,0 +1,43 @@
+html{
+    font-size: 10px;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+#root,
+.App{
+    height: 100%;
+}
+
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    line-height: 1;
+    font-weight: 400;
+}
+
+a {
+    text-decoration: none;
+    cursor:pointer;
+    :hover{
+    transition: all .4s ease-in-out
+    }
+}
+
+.main{
+    width: 100%;
+    height: calc(100% - 6.5rem);
+    max-width: 1450px;
+    padding: 0 10px;
+    margin: 0 auto;
+}
