@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import './styles.scss';
 import { signInWithGoogle, auth } from '../../firebase/utils';
 
+import AuthWrapper from '../AuthWrapper';
 import FormInput from '../forms/FormInput';
 import Button from '../forms/Button';
 
@@ -46,26 +48,27 @@ class SignIn extends Component {
 
     render() {
         const { email, password } = this.state;
+
+        const configAuthWrapper = {
+            headline: 'LogIn'
+        };
+
         return(
-            <div className="signin">
-                <div className="wrap">
-                    <h2>
-                        LogIn
-                    </h2>
+            <AuthWrapper {...configAuthWrapper}>
                     <div className="formWrap">
                         <form onSubmit={this.handleSubmit}>
                             <FormInput 
                                 type="email"
                                 name="email"
                                 value={email}
-                                placholder="Email"
+                                placeholder="Email"
                                 handleChange={this.handleChange}
                             />
                             <FormInput 
                                 type="password"
                                 name="password"
                                 value={password}
-                                placholder="Password"
+                                placeholder="Password"
                                 handleChange={this.handleChange}
                             />
                             <Button type="submit">
@@ -78,11 +81,16 @@ class SignIn extends Component {
                                         Sign in with Google
                                     </Button>
                                 </div>
+
+                                <div className="links">
+                                    <Link to="/recovery">
+                                        Reset Password
+                                    </Link>
+                                </div>
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
+            </AuthWrapper>
         );
     }
 }
