@@ -13,7 +13,7 @@ const Directory = props => {
                             backgroundImage: `url(${ShopWomen})`
                         }}
                     > 
-                        <a>
+                        <a >
                             Shop Womens
                         </a>
                     </div>
@@ -23,7 +23,7 @@ const Directory = props => {
                             backgroundImage: `url(${ShopMen})`
                         }}
                     > 
-                        <a>
+                        <a >
                             Shop Mens
                         </a>
                     </div>
