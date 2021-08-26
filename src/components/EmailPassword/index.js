@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { withRouter } from 'react-router';
 import './styles.scss';
 
@@ -8,47 +8,29 @@ import Button from '../forms/Button';
 
 import { auth } from '../../firebase/utils';
 
-const initialState = {
-    email: '',
-    errors: []
-};
 
-class EmailPassword extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            ...initialState
-        };
 
-        this.handleChange = this.handleChange.bind(this);
-    }
+const EmailPassword = props => {
 
-    handleChange (e) {
-        const { name, value } = e.target;
-        this.setState({
-            [name]: value
-        })
-    }
+    const [email, setEmail] = useState('');
+    const [errors, setErrors] = useState('');
 
-    handleSubmit = async (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const { email } = this.state;
-
             const config = {
                 url: window.location.origin+'/login'
             };
 
             await auth.sendPasswordResetEmail(email, config)
                 .then (() =>{
-                    this.props.history.push('/login');
+                    props.history.push('/login');
                 })
                 .catch(() =>{
                     const err = ['Email not found. Please try again.'];
-                    this.setState({
-                        errors: err
-                    });
+                    setErrors(err)
                 });
 
         } catch (error) {
@@ -56,45 +38,43 @@ class EmailPassword extends Component {
         }
     }
 
-    render() {
-        const { email, errors } = this.state;
 
-        const configAuthWrapper = {
-            headline: 'Email Password'
-        };
+    const configAuthWrapper = {
+        headline: 'Email Password'
+    };
 
-        return (
-            <AuthWrapper {...configAuthWrapper}>
-                <div className="formWrap">
-                    {errors.length > 0 && (
-                        <ul>
-                            {errors.map((e, index) => {
-                                return(
-                                <li key={index}>
-                                    {e}
-                                </li>
-                                );
-                            })}
-                        </ul>
-                    )}
+    return (
+        <AuthWrapper {...configAuthWrapper}>
+            <div className="formWrap">
+                {errors.length > 0 && (
+                    <ul>
+                        {errors.map((e, index) => {
+                            return(
+                            <li key={index}>
+                                {e}
+                            </li>
+                            );
+                        })}
+                    </ul>
+                )}
 
-                    <form onSubmit={this.handleSubmit}>
-                        <FormInput 
-                            type="email"
-                            name="email"
-                            value={email}
-                            placeholder="Email"
-                            onChange={this.handleChange}
-                        />
+                <form onSubmit={handleSubmit}>
+                    <FormInput 
+                        type="email"
+                        name="email"
+                        value={email}
+                        placeholder="Email"
+                        handleChange={e => setEmail(e.target.value)}
+                    />
 
-                        <Button type="submit">
-                            Email Password
-                        </Button>
-                    </form>
-                </div>
-            </AuthWrapper>
-        );
+                    <Button type="submit">
+                        Email Password
+                    </Button>
+                </form>
+            </div>
+        </AuthWrapper>
+    );
     }
-}
+
 
 export default withRouter(EmailPassword);
