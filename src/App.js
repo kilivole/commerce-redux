@@ -17,13 +17,14 @@ import AdminLayout from './layouts/AdminLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 // pages
 import Homepage from './pages/Homepage';
+import Search from './pages/Search';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Recovery from './pages/Recovery';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
+import ProductDetails from './pages/ProductDetails';
 import './default.scss';
-import DashBoardLayout from './layouts/DashboardLayout';
 
 const App = props => {
 
@@ -40,10 +41,29 @@ const dispatch = useDispatch();
       <div className="App">
       <AdminToolbar/>
         <Switch>
-          <Route exact path="/" render={() => (
+          <Route exact path="/" 
+          render={() => (
             <HomepageLayout >
               <Homepage />
             </HomepageLayout>
+          )} />
+          <Route exact path="/search" 
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
+          )} />
+          <Route path="/search/:filterType" 
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
+          )} />
+          <Route path="/product/:productID" 
+          render={() => (
+            <MainLayout>
+              <ProductDetails />
+            </MainLayout>
           )} />
           <Route path="/registration" 
           render={() => (
@@ -66,9 +86,9 @@ const dispatch = useDispatch();
           <Route path="/dashboard" 
           render={() => (
             <WithAuth>
-            <DashBoardLayout>
+            <DashboardLayout>
               <Dashboard/>
-            </DashBoardLayout>
+            </DashboardLayout>
             </WithAuth>
           )}/>
          <Route path="/admin" 

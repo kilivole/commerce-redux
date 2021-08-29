@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-// import { firestore } from './../../firebase/utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProductStart, fetchProducsStart, deleteProductStart } from '../../redux/Products/products.actions';
+import { addProductStart, fetchProductsStart, deleteProductStart } from '../../redux/Products/products.actions';
 import Modal from './../../components/Modal';
 import FormInput from './../../components/forms/FormInput';
 import FormSelect from './../../components/forms/FormSelect';
 import Button from './../../components/forms/Button';
+import LoadMore from '../../components/LoadMore';
+import { CKEditor } from 'ckeditor4-react';
 import './styles.scss';
 
 const mapState = ({ productsData }) => ({
@@ -15,12 +16,20 @@ const mapState = ({ productsData }) => ({
 const Admin = props => {
   const { products } = useSelector(mapState);
   const dispatch = useDispatch();
-  // const [products, setProducts] = useState([]);
   const [hideModal, setHideModal] = useState(true);
   const [productCategory, setProductCategory] = useState('mens');
   const [productName, setProductName] = useState('');
   const [productThumbnail, setProductThumbnail] = useState('');
   const [productPrice, setProductPrice] = useState(0);
+  const [productDesc, setProductDesc] = useState('');
+
+  const { data, queryDoc, isLastPage } = products;
+
+  useEffect(() => {
+    dispatch(
+      fetchProductsStart()
+    );
+  }, []);
 
   const toggleModal = () => setHideModal(!hideModal);
 
@@ -29,23 +38,13 @@ const Admin = props => {
     toggleModal
   };
 
-  useEffect(() => {
-    dispatch(
-      fetchProducsStart()
-    );
-
-    // firestore.collection('products').get().then(snapshot => {
-    //   const snapshotData = snapshot.docs.map(doc => doc.data());
-    //   setProducts(snapshotData);
-    // });
-  }, []);
-
   const resetForm = () => {
       setHideModal(true);
       setProductCategory('mens');
       setProductName('');
       setProductPrice(0);
       setProductThumbnail('');
+      setProductDesc('');
   }
 
   const handleSubmit = e => {
@@ -56,20 +55,25 @@ const Admin = props => {
         productCategory,
         productName,
         productThumbnail,
-        productPrice
+        productPrice,
+        productDesc,
       })
     );
     resetForm();
 
-    // firestore.collection('products').doc().set({
-    //   productCategory,
-    //   productName,
-    //   productThumbnail,
-    //   productPrice
-    // }).then(e => {
-    //   // Success
-    // });
+  };
 
+  const handleLoadMore = () => {
+    dispatch(
+      fetchProductsStart({
+        startAfterDoc: queryDoc,
+        persistProducts: data
+      })
+    );
+  };
+
+  const configLoadMore = {
+    onLoadMoreEvt: handleLoadMore,
   };
 
     return (
@@ -128,7 +132,12 @@ const Admin = props => {
                 value={productPrice}
                 handleChange={e => setProductPrice(e.target.value)}
               />
-  
+
+              <CKEditor 
+                onChange={evt => setProductDesc(evt.editor.getData())}
+              />
+                <br />
+
               <Button type="submit">
                 Add product
               </Button>
@@ -145,11 +154,9 @@ const Admin = props => {
                   <h1>Manage Products</h1>
                 </th>
               </tr>
-              <tr>
-                <td>
                   <table className="results" border="0" cellPadding="10" cellSpacing="0">
                     <tbody>
-                      {products.map((product, index) => {
+                      {(Array.isArray(data) && data.length > 0) && data.map((product, index) => {
                         const {
                           productName,
                           productThumbnail,
@@ -178,8 +185,25 @@ const Admin = props => {
                       })}
                     </tbody>
                   </table>
-                </td>
-              </tr>
+                <tr>
+                  <td>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <table border="0" cellPadding="10" cellSpacing="0">
+                      <tbody>
+                        <tr>
+                          <td>
+                           {!isLastPage && 
+                           (<LoadMore {...configLoadMore}/>)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
             </tbody>
           </table>
 

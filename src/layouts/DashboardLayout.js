@@ -6,7 +6,7 @@ import Header from './../components/Header';
 import VerticalNav from './../components/VerticalNav';
 import Footer from './../components/Footer';
 
-const DashBoardLayout = props => {
+const DashboardLayout = props => {
   const dispatch = useDispatch();
 
   const signOut = () => {
@@ -42,4 +42,4 @@ const DashBoardLayout = props => {
   );
 };
 
-export default DashBoardLayout;
+export default DashboardLayout;
