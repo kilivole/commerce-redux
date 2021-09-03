@@ -1,11 +1,12 @@
 import './styles.scss';
+import { Button } from '@material-ui/core';
 
-const Button = ({ children, ...otherProps }) => {
+const Buttons = ({ children, ...otherProps }) => {
     return(
-        <button className="btn" {...otherProps}>
+        <Button style={{ fontSize: '15px' }} fullWidth variant="contained" color="primary" {...otherProps}>
             {children}
-        </button>
+        </Button>
     );
 }
 
-export default Button;
+export default Buttons;

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { checkUserSession } from './redux/User/user.actions';
+import { ThemeProvider } from '@material-ui/styles';
 
 //components
 import AdminToolbar from './components/AdminToolbar';
@@ -29,6 +30,9 @@ import Payment from './pages/Payment';
 import Order from './pages/Order';
 import './default.scss';
 
+//theme
+import {theme} from './theme';
+
 const App = props => {
 
 const dispatch = useDispatch();
@@ -41,8 +45,9 @@ const dispatch = useDispatch();
 
  
     return (
+      <ThemeProvider theme={theme}>
       <div className="App">
-      <AdminToolbar/>
+      {/* <AdminToolbar/> */}
         <Switch>
           <Route exact path="/" 
           render={() => (
@@ -127,6 +132,7 @@ const dispatch = useDispatch();
           )}/>
         </Switch>
         </div>
+      </ThemeProvider>
     );
   }
 

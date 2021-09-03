@@ -1,7 +1,11 @@
 import { Link, useHistory } from "react-router-dom";
 import Button from "../../forms/Button";
+import { CardActions, IconButton, Card } from '@material-ui/core';
+import { AddShoppingCart } from '@material-ui/icons';
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../../redux/Cart/cart.actions";
+
+
 
 const Product = ( product ) => {
     const dispatch = useDispatch();
@@ -30,7 +34,7 @@ const Product = ( product ) => {
      };
 
     return(
-        <div className="product">
+        <Card className="product">
             <div className="thumb">
             <Link to={`/product/${documentID}`}>
                 <img src={productThumbnail} alt={productName} />
@@ -51,16 +55,21 @@ const Product = ( product ) => {
                         </span>
                     </li>
                     <li>
-                        <div className="addToCart"> 
+                        <CardActions color="primary">
+                        <IconButton ara-label="Add to cart" onClick={() => handleAddToCart(product)}>
+                            <AddShoppingCart fontSize="large" />
+                        </IconButton>
+                        </CardActions>
+                        {/* <div className="addToCart"> 
                             <Button {...configAddToCartBtn} onClick={() => handleAddToCart(product)}>
                                 Add to cart
                             </Button>
-                        </div>
+                        </div> */}
                     </li>
                 </ul>
             </div>
            
-        </div>
+        </Card>
     );
 };
 

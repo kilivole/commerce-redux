@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { selectCartItems, selectCartTotal } from '../../redux/Cart/cart.selectors';
 import { createStructuredSelector } from 'reselect';
+import { Paper } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '../forms/Button';
 import Item from './Item';
 import './styles.scss';
@@ -11,7 +13,23 @@ const mapState = createStructuredSelector({
     total: selectCartTotal
 });
 
+const useStyles = makeStyles((theme) => ({
+    gridMargin: {
+        margin: '1rem 0',
+    },
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(3),
+    },
+    root: {
+      flexGrow: 1,
+    },
+  }));
+
 const Checkout = ({}) => {
+    const classes = useStyles();
+
     const { cartItems, total} = useSelector(mapState);
     const history = useHistory();
     
@@ -20,7 +38,7 @@ const Checkout = ({}) => {
     return (
         <div className="checkout">
             <h1>
-                Checkout
+                Your Shopping Cart
             </h1>
             <div className="cart">
             {cartItems.length > 0 ? (
@@ -57,9 +75,9 @@ const Checkout = ({}) => {
                                         {cartItems.map((item, pos) =>{
                                             return(
                                                 <tr key={pos}>
-                                                    <td>
+                                                    <Paper className={classes.gridMargin}>
                                                         <Item {...item} />
-                                                    </td>
+                                                    </Paper>
                                                 </tr>
                                             )
                                         })}

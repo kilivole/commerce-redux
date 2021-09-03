@@ -1,25 +1,36 @@
 .formRow {
     display: inline-block;
     width: 100%;
+    margin:0.8rem 0;
   
-    label {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
+  //   label {
+  //     display: block;
+  //     width: 100%;
+  //     text-align: left;
+  //   }
   
-    select {
-      display: block;
-      width: auto;
-      float: left;
-      font-size: 1.5rem;
-      line-height: 1;
-      font-weight: 400;
-      text-align: left;
-      padding: 10px 0px;
-      margin: 10px auto;
-      border: none;
-      outline: none;
-      cursor: pointer;
-    }
-  } 
+  //   select {
+  //     display: block;
+  //     width: auto;
+  //     float: left;
+  //     font-size: 1.5rem;
+  //     line-height: 1;
+  //     font-weight: 400;
+  //     text-align: left;
+  //     padding: 10px 0px;
+  //     margin: 10px auto;
+  //     border: none;
+  //     outline: none;
+  //     cursor: pointer;
+  //   }
+  // } 
+
+  .MuiSelect-select{
+    font-size:1.5rem;
+
+  }
+} 
+
+// .MuiInput-underline:hover:not(.MuiInput-disabled-23):not(.MuiInput-focused-22):not(.MuiInput-error-25):before {
+//   border-bottom: 2px solid aquamarine !important;
+// }

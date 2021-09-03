@@ -1,9 +1,12 @@
-import React from 'react';
+import {useState, useEffect} from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { IconButton, Badge, AppBar } from '@material-ui/core';
+import { ShoppingCart } from '@material-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOutUserStart } from '../../redux/User/user.actions';
 import { selectCartItemsCount } from '../../redux/Cart/cart.selectors';
+import AdminToolbar from '../AdminToolbar';
 import './styles.scss';
-import { Link } from 'react-router-dom';
 
 import Logo from './../../assets/logo.png';
 
@@ -13,14 +16,23 @@ const mapState = (state) => ({
 });
 
 const Header = props => {
+    const location = useLocation();
+    const [activeMenu, setActiveMenu] = useState(false);
     const dispatch = useDispatch();
     const { currentUser, totalNumCartItems } = useSelector(mapState);
 
     const signOut = () => {
         dispatch(signOutUserStart());
     };
-    
+
+    useEffect(() => {
+        setActiveMenu(false);
+    }, [location]);
+      
+
     return(
+        <AppBar position="sticky">   
+        <AdminToolbar/>
         <header className="header">
             <div className="wrap">
                 <div className="logo">
@@ -29,7 +41,7 @@ const Header = props => {
                     </Link>
                 </div>
 
-            <nav>
+            <nav className={`mainMenu ${activeMenu ? 'active' : ''}`}>
                 <ul>
                     <li>
                         <Link to="/">
@@ -46,23 +58,31 @@ const Header = props => {
             <div className="callToActions">
 
                 <ul>
+                    <IconButton component={Link} to="/cart" aria-label="Show cart items" color="inherit">
+                            <Badge badgeContent={totalNumCartItems} color="secondary">
+                                <ShoppingCart fontSize="large" />
+                            </Badge>
+                    </IconButton>
 
                 <li>
-                    <Link to="/cart">
+                    {/* <Link to="/cart">
                         Your Cart ({totalNumCartItems})
-                    </Link>
+                        <i class="fas fa-shopping-basket"></i>
+                    </Link> */}
                 </li>
 
                 {currentUser && [   
-                        <li>
+                    <li key={1} className="hideOnMobile">
                             <Link to="/dashboard">
                                 My Account
+                                <i class="fas fa-user-circle"></i>
                             </Link>
                         </li>,
                         <li>
                             <span onClick={() => signOut()}>
                             <Link to="/">
                                 LogOut
+                                <i class="fas fa-sign-out-alt"></i>
                             </Link>
                             </span>
                         </li>
@@ -76,18 +96,23 @@ const Header = props => {
                         <li>
                             <Link to="/login">
                                 Login
+                                <i class="fas fa-user-circle"></i>
                             </Link>
                         </li>
                ]}   
                 
-                                    
+               <li className="mobileMenu">
+                <span onClick={() => setActiveMenu(!activeMenu)}>
+                    <i className="fas fa-bars"></i>
+                </span>
+                </li>
+                             
                 </ul>
-
-
 
             </div>
             </div>
         </header>
+        </AppBar>
     );
 };
 

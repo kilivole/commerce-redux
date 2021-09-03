@@ -12,9 +12,9 @@
 }
 
 .product{
-    width: 33.33%;
+   // width: 33.33%;
     margin: 0 auto 2rem;
-    padding: 0 10px;
+  //  padding: 0 10px;
 
     .thumb {
         display:block;
@@ -67,5 +67,11 @@
                 }
             }
         }
+    }
+    }
+
+    @media only screen and (max-width: 980px) {
+    .product {
+        width: 100%;
     }
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { resetPasswordStart, resetUserState } from '../../redux/User/user.actions';
 import './styles.scss';
 
@@ -73,6 +73,18 @@ const EmailPassword = props => {
                         Email Password
                     </Button>
                 </form>
+
+                <div className="links">
+                    <Link to="/login">
+                        LogIn
+                    </Link>
+                    {` | `}
+                    <Link to="/registration">
+                        Register
+                    </Link>
+                </div>
+
+
             </div>
         </AuthWrapper>
     );
